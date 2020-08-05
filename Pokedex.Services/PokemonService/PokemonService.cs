@@ -131,7 +131,7 @@ namespace Pokedex.Services
             {
                 foreach (var evolution in pokemonEvolutionChainReponseDto.evolves_to)
                 {
-                    var pokemon = await GetByNameAsync(new GetPokemonByNamePayload { Name = pokemonEvolutionChainReponseDto.species.name });
+                    var pokemon = await GetByNameAsync(new GetPokemonByNamePayload { Name = evolution.species.name });
 
                     pokemonDetails.Evolutions.Add(pokemon);
                 }
