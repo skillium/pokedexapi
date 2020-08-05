@@ -12,7 +12,7 @@ namespace Pokedex.API.Controllers
     [ApiController]
     [Produces("application/json")]
     [SwaggerTag("Pokemon Trainers")]
-    [Route("[controller]/api/v1")]
+    [Route("api/v1/[controller]")]
     public class PokemonController : ControllerBase
     {
         private readonly IPokemonService _pokemonService;
