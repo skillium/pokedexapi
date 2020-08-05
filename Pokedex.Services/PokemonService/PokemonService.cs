@@ -129,9 +129,13 @@ namespace Pokedex.Services
         {
             if (pokemonEvolutionChainReponseDto.evolves_to.Length > 1)
             {
+                var pokemon = await GetByNameAsync(new GetPokemonByNamePayload { Name = pokemonEvolutionChainReponseDto.species.name });
+
+                pokemonDetails.Evolutions.Add(pokemon);
+
                 foreach (var evolution in pokemonEvolutionChainReponseDto.evolves_to)
                 {
-                    var pokemon = await GetByNameAsync(new GetPokemonByNamePayload { Name = evolution.species.name });
+                    pokemon = await GetByNameAsync(new GetPokemonByNamePayload { Name = evolution.species.name });
 
                     pokemonDetails.Evolutions.Add(pokemon);
                 }
