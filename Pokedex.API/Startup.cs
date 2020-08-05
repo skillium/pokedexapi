@@ -31,6 +31,7 @@ namespace Pokedex.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers().AddFluentValidation();
+            services.AddMemoryCache();
 
             services.ConfigDbContext();
             services.ConfigAutoMapper();

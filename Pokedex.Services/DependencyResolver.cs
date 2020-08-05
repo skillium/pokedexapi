@@ -24,11 +24,15 @@ namespace Pokedex.Services
         public static void ConfigServices(this IServiceCollection services)
         {
             services.AddScoped<IPokemonTrainerService, PokemonTrainerService>();
+            services.AddScoped<IPokemonService, PokemonService>();
         }
 
         public static void ConfigValidators(this IServiceCollection services)
         {
             services.AddTransient<IValidator<CreatePokemonTrainerPayload>, CreatePokemonTrainerPayloadValidator>();
+            services.AddTransient<IValidator<GetPokemonByIdPayload>, GetPokemonByIdPayloadValidator>();
+            services.AddTransient<IValidator<GetPokemonByNamePayload>, GetPokemonByNamePayloadValidator>();
+            services.AddTransient<IValidator<GetPokemonsByLimitPayload>, GetPokemonsByLimitPayloadValidator>();
         }
     }
 }

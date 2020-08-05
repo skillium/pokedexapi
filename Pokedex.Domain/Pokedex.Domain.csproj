@@ -10,4 +10,8 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="3.1.6" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Validators\PokemonTrainer\" />
+    <Folder Include="Validators\Pokemon\" />
+  </ItemGroup>
 </Project>
