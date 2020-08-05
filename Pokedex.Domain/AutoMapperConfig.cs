@@ -12,13 +12,15 @@ namespace Pokedex.Domain
         {
             CreateMap<CreatePokemonTrainerPayload, PokemonTrainer>();
             CreateMap<PokemonResponseDto, PokemonDto>()
-                .ForMember(p => p.image, opts => opts.MapFrom(pr => pr.sprites.front_default))
-                .ForMember(p => p.Types, opts => opts.MapFrom(pr => pr.types.Select(type => type.type.name)));
+                .ForMember(p => p.Image, opts => opts.MapFrom(pr => pr.sprites.front_default))
+                .ForMember(p => p.Types, opts => opts.MapFrom(pr => pr.types.Select(type => type.type.name)))
+                .ForMember(p => p.Moves, opts => opts.MapFrom(pr => pr.moves.Select(move => move.move.name)));
 
             CreateMap<PokemonResponseDto, PokemonDetailsDto>()
                 .ForMember(p => p.Evolutions, opts => opts.Ignore())
-                .ForMember(p => p.image, opts => opts.MapFrom(pr => pr.sprites.front_default))
-                .ForMember(p => p.Types, opts => opts.MapFrom(pr => pr.types.Select(type => type.type.name)));
+                .ForMember(p => p.Image, opts => opts.MapFrom(pr => pr.sprites.front_default))
+                .ForMember(p => p.Types, opts => opts.MapFrom(pr => pr.types.Select(type => type.type.name)))
+                .ForMember(p => p.Moves, opts => opts.MapFrom(pr => pr.moves.Select(move => move.move.name)));
         }
     }
 }

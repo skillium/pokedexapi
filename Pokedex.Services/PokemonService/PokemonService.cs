@@ -72,7 +72,7 @@ namespace Pokedex.Services
                 await GetPokemonEvolutionsAsync(pokemon);
 
                 _cache.Set(cacheKey, pokemon, new MemoryCacheEntryOptions
-                { 
+                {
                     AbsoluteExpiration = DateTime.Now.AddDays(1),
                     SlidingExpiration = TimeSpan.FromMinutes(15),
                     Priority = CacheItemPriority.Normal
@@ -127,13 +127,25 @@ namespace Pokedex.Services
 
         async private Task AddEvolutions(PokemonDetailsDto pokemonDetails, ChaindDto pokemonEvolutionChainReponseDto)
         {
-            var pokemon = await GetByNameAsync(new GetPokemonByNamePayload { Name = pokemonEvolutionChainReponseDto.species.name });
-
-            pokemonDetails.Evolutions.Add(pokemon);
-
-            if (pokemonEvolutionChainReponseDto.evolves_to.Length > 0)
+            if (pokemonEvolutionChainReponseDto.evolves_to.Length > 1)
             {
-                await AddEvolutions(pokemonDetails, pokemonEvolutionChainReponseDto.evolves_to[0]);
+                foreach (var evolution in pokemonEvolutionChainReponseDto.evolves_to)
+                {
+                    var pokemon = await GetByNameAsync(new GetPokemonByNamePayload { Name = evolution.species.name });
+
+                    pokemonDetails.Evolutions.Add(pokemon);
+                }
+            }
+            else
+            {
+                var pokemon = await GetByNameAsync(new GetPokemonByNamePayload { Name = pokemonEvolutionChainReponseDto.species.name });
+
+                pokemonDetails.Evolutions.Add(pokemon);
+
+                if (pokemonEvolutionChainReponseDto.evolves_to.Length > 0)
+                {
+                    await AddEvolutions(pokemonDetails, pokemonEvolutionChainReponseDto.evolves_to[0]);
+                }
             }
         }
 
