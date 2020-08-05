@@ -129,22 +129,23 @@ namespace Pokedex.Services
         {
             if (pokemonEvolutionChainReponseDto.evolves_to.Length > 1)
             {
-                var pokemon = await GetByNameAsync(new GetPokemonByNamePayload { Name = pokemonEvolutionChainReponseDto.species.name });
-
-                pokemonDetails.Evolutions.Add(pokemon);
-
                 foreach (var evolution in pokemonEvolutionChainReponseDto.evolves_to)
                 {
-                    pokemon = await GetByNameAsync(new GetPokemonByNamePayload { Name = evolution.species.name });
+                    var pokemon = await GetByNameAsync(new GetPokemonByNamePayload { Name = pokemonEvolutionChainReponseDto.species.name });
 
                     pokemonDetails.Evolutions.Add(pokemon);
                 }
             }
             else
             {
-                var pokemon = await GetByNameAsync(new GetPokemonByNamePayload { Name = pokemonEvolutionChainReponseDto.species.name });
+                if (!pokemonDetails.Name.Equals(pokemonEvolutionChainReponseDto.species.name))
+                {
+                    var pokemon = await GetByNameAsync(new GetPokemonByNamePayload { Name = pokemonEvolutionChainReponseDto.species.name });
+                    pokemon.Moves = null;
 
-                pokemonDetails.Evolutions.Add(pokemon);
+                    pokemonDetails.Evolutions.Add(pokemon);
+                }
+
 
                 if (pokemonEvolutionChainReponseDto.evolves_to.Length > 0)
                 {
